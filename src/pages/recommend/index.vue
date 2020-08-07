@@ -1,115 +1,174 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a href="http://router.vuejs.org/"
-           target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="recommend" ref="recommend">
+   <!-- <scroll ref="scroll" class="recommend-content" :data="discList">
+      <div>
+        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
+          <slider>
+            <div v-for="item in recommends">
+              <a :href="item.linkUrl">
+                <img class="needsclick" @load="loadImage" :src="item.picUrl">
+              </a>
+            </div>
+          </slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li @click="selectItem(item)" v-for="item in discList" class="item">
+              <div class="icon">
+                <img width="60" height="60" v-lazy="item.imgurl">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="loading-container" v-show="!discList.length">
+        <loading></loading>
+      </div>
+    </scroll>-->
+    推荐1
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
+ /* import Slider from 'base/slider/slider'
+  import Loading from 'base/loading/loading'
+  import Scroll from 'base/scroll/scroll'
+  import {getRecommend, getDiscList} from 'api/recommend'
+  import {playlistMixin} from 'common/js/mixin'
+  import {ERR_OK} from 'api/config'
+  import {mapMutations} from 'vuex'*/
+
   export default {
-    name: 'HelloWorld',
+   /* mixins: [playlistMixin],
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        recommends: [],
+        discList: []
       }
+    },
+    created() {
+      this._getRecommend()
+
+      this._getDiscList()
+    },
+    methods: {
+      handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+
+        this.$refs.recommend.style.bottom = bottom
+        this.$refs.scroll.refresh()
+      },
+      loadImage() {
+        if (!this.checkloaded) {
+          this.checkloaded = true
+          this.$refs.scroll.refresh()
+        }
+      },
+      selectItem(item) {
+        this.$router.push({
+          path: `/recommend/${item.dissid}`
+        })
+        this.setDisc(item)
+      },
+      _getRecommend() {
+        getRecommend().then((res) => {
+          if (res.code === ERR_OK) {
+            this.recommends = res.data.slider
+          }
+        })
+      },
+      _getDiscList() {
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            this.discList = res.data.list
+          }
+        })
+      },
+      ...mapMutations({
+        setDisc: 'SET_DISC'
+      })
+    },*/
+    components: {
+     /* Slider,
+      Loading,
+      Scroll*/
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  h1, h2 {
-    font-weight: normal;
-  }
+<style scoped lang="less">
+  @import "../../common/less/variable";
 
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
+  .recommend {
+    position: fixed;
+    width: 100%;
+    top: 88px;
+    bottom: 0;
 
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
+    .recommend-content {
+      height: 100%;
+      overflow: hidden;
 
-  a {
-    color: #42b983;
+      .slider-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .recommend-list {
+        .list-title {
+          height: 65px;
+          line-height: 65px;
+          text-align: center;
+          font-size: @font-size-medium;
+          color: @color-theme;
+        }
+
+        .item {
+          display: flex;
+          box-sizing: border-box;
+          align-items: center;
+          padding: 0 20px 20px 20px;
+
+          .icon {
+            flex: 0 0 60px;
+            width: 60px;
+            padding-right: 20px;
+
+            .text {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              flex: 1;
+              line-height: 20px;
+              overflow: hidden;
+              font-size: @font-size-medium;
+
+              .name {
+                margin-bottom: 10px;
+                color: @color-text
+              }
+
+              .desc {
+                color: @color-text-d
+              }
+            }
+          }
+        }
+      }
+
+      .loading-container {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
   }
 </style>

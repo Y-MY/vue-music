@@ -1,21 +1,29 @@
 # vue-music
 
-> A Vue.js project
+> 移动端音乐WebApp
 
-## Build Setup
+# 技术栈
+### 前端
+- Vue：用于构建用户界面的 MVVM 框架。
+- vue-router：为单页面应用提供的路由系统
+- Less：css 预编译处理器
+- ES6：ECMAScript 新一代语法，模块化、解构赋值、Promise、Class 等方法非常好用
 
-``` bash
-# install dependencies
-npm install
+### 自动化构建及其他工具
+- webpack：项目的编译打包
+- vue-cli：Vue 脚手架工具，快速搭建项目
 
-# serve with hot reload at localhost:8080
-npm run dev
+# 踩坑
+### 安装less踩坑
+该项目基本上使用less编写样式
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+1.安装less和less-loader
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+npm install less@3.9.0 --save-dev
+npm install less-loader@5.0.0 --save-dev
+```
+2.最后在页面代码中引用：
+```
+<style lang="less" scoped>
+</style>
+```

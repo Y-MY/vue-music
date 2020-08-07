@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <!--<img src="./assets/logo.png">-->
+    <m-header></m-header>
     <tab></tab>
-    <router-view/>
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import tab from './pages/tab.vue';
+  import Tab from './pages/tab';
+  import MHeader from './pages/m-header/index';
   export default {
     name: 'App',
     components: {
-      tab,
+      Tab,
+      MHeader
     }
   }
 </script>
 
-<style>
+<style lang="less" scoped>
+  @import "common/less/variable";
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
   }
 </style>

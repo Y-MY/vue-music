@@ -8,30 +8,55 @@ import Search from '../pages/search/index.vue';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path:'/recommend',
-      component:Recommend,
-      name:'推荐'
+      path: '/',
+      redirect: '/recommend'
     },
     {
-      path:'/singer',
-      component:Singer,
-      name:'歌手'
+      path: '/recommend',
+      component: Recommend,
+      children: [
+        {
+          path: ':id',
+         // component: Disc
+        }
+      ]
     },
     {
-      path:'/rank',
-      component:Rank,
-      name:'排行'
+      path: '/singer',
+      component: Singer,
+      children: [
+        {
+          path: ':id',
+         // component: SingerDetail
+        }
+      ]
     },
     {
-      path:'/search',
-      component:Search,
-      name:'搜索'
+      path: '/rank',
+      component: Rank,
+      children: [
+        {
+          path: ':id',
+         // component: TopList
+        }
+      ]
     },
     {
-      redirect:'/recommend',
-      path:'/'
+      path: '/search',
+      component: Search,
+      children: [
+        {
+          path: ':id',
+         // component: SingerDetail
+        }
+      ]
+    },
+    {
+      path: '/user',
+      //component: UserCenter
     }
   ]
 })

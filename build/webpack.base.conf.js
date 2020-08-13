@@ -1,8 +1,8 @@
-'use strict'
-const path = require('path')
-const utils = require('./utils')
-const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
+'use strict';
+const path = require('path');
+const utils = require('./utils');
+const config = require('../config');
+const vueLoaderConfig = require('./vue-loader.conf');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -28,7 +28,7 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'common': resolve('src/common'),
-      'pages': resolve('src/pages'),
+     /* 'components': resolve('src/components'),*/
       'base': resolve('src/base'),
       'api': resolve('src/api'),
     }
@@ -83,4 +83,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty'
   }
-}
+};

@@ -1,6 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
-   <!-- <scroll ref="scroll" class="recommend-content" :data="discList">
+    <!--<scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
           <slider>
@@ -30,74 +30,71 @@
         <loading></loading>
       </div>
     </scroll>-->
-    推荐1
     <router-view></router-view>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
- /* import Slider from 'base/slider/slider'
-  import Loading from 'base/loading/loading'
-  import Scroll from 'base/scroll/scroll'
-  import {getRecommend, getDiscList} from 'api/recommend'
-  import {playlistMixin} from 'common/js/mixin'
-  import {ERR_OK} from 'api/config'
-  import {mapMutations} from 'vuex'*/
+<script>
+  import Slider from '../../base/slider/slider'
+  import Loading from '../../base/loading/loading'
+  import Scroll from '../../base/scroll/scroll'
+  /*  import {playlistMixin} from 'common/js/mixin'
+   import {mapMutations} from 'vuex';*/
+  import {getRecommend, getDiscList} from '../../api/recommend'
 
   export default {
-   /* mixins: [playlistMixin],
+    components: {
+      Slider,
+      Loading,
+      Scroll
+    },
     data() {
       return {
         recommends: [],
         discList: []
       }
     },
+    /*mixins: [playlistMixin],*/
     created() {
-      this._getRecommend()
-
+      this._getRecommend();
       this._getDiscList()
     },
     methods: {
       handlePlaylist(playlist) {
-        const bottom = playlist.length > 0 ? '60px' : ''
+        const bottom = playlist.length > 0 ? '60px' : '';
 
-        this.$refs.recommend.style.bottom = bottom
+        this.$refs.recommend.style.bottom = bottom;
         this.$refs.scroll.refresh()
       },
       loadImage() {
         if (!this.checkloaded) {
-          this.checkloaded = true
+          this.checkloaded = true;
           this.$refs.scroll.refresh()
         }
       },
       selectItem(item) {
         this.$router.push({
           path: `/recommend/${item.dissid}`
-        })
+        });
         this.setDisc(item)
       },
       _getRecommend() {
         getRecommend().then((res) => {
-          if (res.code === ERR_OK) {
-            this.recommends = res.data.slider
-          }
+          this.recommends = res.result.results
         })
       },
       _getDiscList() {
-        getDiscList().then((res) => {
+      /*  getDiscList().then((res) => {
           if (res.code === ERR_OK) {
             this.discList = res.data.list
           }
-        })
+        })*/
       },
-      ...mapMutations({
-        setDisc: 'SET_DISC'
-      })
-    },*/
-    components: {
-     /* Slider,
-      Loading,
-      Scroll*/
+      /* ...mapMutations({
+         setDisc: 'SET_DISC'
+       })
+     },*/
+
     }
   }
 </script>

@@ -11,7 +11,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {addClass} from 'common/js/dom'
+  import {addClass} from '../../common/js/dom'
   import BScroll from 'better-scroll'
 
   export default {
@@ -38,20 +38,20 @@
     },
     mounted() {
       setTimeout(() => {
-        this._setSliderWidth()
-        this._initDots()
-        this._initSlider()
+        this._setSliderWidth();
+        this._initDots();
+        this._initSlider();
 
         if (this.autoPlay) {
           this._play()
         }
-      }, 20)
+      }, 20);
 
       window.addEventListener('resize', () => {
         if (!this.slider) {
           return
         }
-        this._setSliderWidth(true)
+        this._setSliderWidth(true);
         this.slider.refresh()
       })
     },
@@ -68,15 +68,15 @@
     },
     methods: {
       _setSliderWidth(isResize) {
-        this.children = this.$refs.sliderGroup.children
+        this.children = this.$refs.sliderGroup.children;
 
-        let width = 0
-        let sliderWidth = this.$refs.slider.clientWidth
+        let width = 0;
+        let sliderWidth = this.$refs.slider.clientWidth;
         for (let i = 0; i < this.children.length; i++) {
-          let child = this.children[i]
-          addClass(child, 'slider-item')
+          let child = this.children[i];
+          addClass(child, 'slider-item');
 
-          child.style.width = sliderWidth + 'px'
+          child.style.width = sliderWidth + 'px';
           width += sliderWidth
         }
         if (this.loop && !isResize) {
@@ -93,20 +93,19 @@
           snapLoop: this.loop,
           snapThreshold: 0.3,
           snapSpeed: 400
-        })
+        });
 
         this.slider.on('scrollEnd', () => {
-          let pageIndex = this.slider.getCurrentPage().pageX
+          let pageIndex = this.slider.getCurrentPage().pageX;
           if (this.loop) {
             pageIndex -= 1
           }
-          this.currentPageIndex = pageIndex
+          this.currentPageIndex = pageIndex;
 
           if (this.autoPlay) {
             this._play()
           }
-        })
-
+        });
         this.slider.on('beforeScrollStart', () => {
           if (this.autoPlay) {
             clearTimeout(this.timer)
@@ -117,7 +116,7 @@
         this.dots = new Array(this.children.length)
       },
       _play() {
-        let pageIndex = this.currentPageIndex + 1
+        let pageIndex = this.currentPageIndex + 1;
         if (this.loop) {
           pageIndex += 1
         }
@@ -134,6 +133,7 @@
 
   .slider {
     min-height: 1px;
+
 
     .slider-group {
       position: relative;

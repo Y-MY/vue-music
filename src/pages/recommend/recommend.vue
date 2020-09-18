@@ -1,12 +1,12 @@
 <template>
   <div class="recommend" ref="recommend">
-    <!--<scroll ref="scroll" class="recommend-content" :data="discList">
+    <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
           <slider>
             <div v-for="item in recommends">
-              <a :href="item.linkUrl">
-                <img class="needsclick" @load="loadImage" :src="item.picUrl">
+              <a :href="item.linkData.linkUrl">
+                <img class="needsclick" @load="loadImage" :src="item.linkData.linkPicUrl">
               </a>
             </div>
           </slider>
@@ -16,11 +16,11 @@
           <ul>
             <li @click="selectItem(item)" v-for="item in discList" class="item">
               <div class="icon">
-                <img width="60" height="60" v-lazy="item.imgurl">
+                <img width="60" height="60" :src="item.image">
               </div>
               <div class="text">
-                <h2 class="name" v-html="item.creator.name"></h2>
-                <p class="desc" v-html="item.dissname"></p>
+                <h2 class="name" v-html="item.playlistName"></h2>
+                <!-- <p class="desc" v-html="item.dissname"></p>-->
               </div>
             </li>
           </ul>
@@ -29,7 +29,7 @@
       <div class="loading-container" v-show="!discList.length">
         <loading></loading>
       </div>
-    </scroll>-->
+    </scroll>
     <router-view></router-view>
   </div>
 </template>
@@ -38,8 +38,8 @@
   import Slider from '../../base/slider/slider'
   import Loading from '../../base/loading/loading'
   import Scroll from '../../base/scroll/scroll'
-  /*  import {playlistMixin} from 'common/js/mixin'
-   import {mapMutations} from 'vuex';*/
+  /*import {playlistMixin} from '../../common/js/mixin'
+  import {mapMutations} from 'vuex';*/
   import {getRecommend, getDiscList} from '../../api/recommend'
 
   export default {
@@ -60,6 +60,17 @@
       this._getDiscList()
     },
     methods: {
+      _getRecommend() {
+        getRecommend().then((res) => {
+          this.recommends = res.result.results
+        })
+      },
+      _getDiscList() {
+        getDiscList().then((res) => {
+          console.log(res.msg)
+          this.discList = res.msg
+        })
+      },
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : '';
 
@@ -78,18 +89,8 @@
         });
         this.setDisc(item)
       },
-      _getRecommend() {
-        getRecommend().then((res) => {
-          this.recommends = res.result.results
-        })
-      },
-      _getDiscList() {
-      /*  getDiscList().then((res) => {
-          if (res.code === ERR_OK) {
-            this.discList = res.data.list
-          }
-        })*/
-      },
+
+
       /* ...mapMutations({
          setDisc: 'SET_DISC'
        })
@@ -137,24 +138,23 @@
             flex: 0 0 60px;
             width: 60px;
             padding-right: 20px;
+          }
+          .text {
+           /* display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;*/
+            line-height: 20px;
+            overflow: hidden;
+            font-size: @font-size-medium;
 
-            .text {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              flex: 1;
-              line-height: 20px;
-              overflow: hidden;
-              font-size: @font-size-medium;
+            .name {
+              margin-bottom: 10px;
+              color: @color-text
+            }
 
-              .name {
-                margin-bottom: 10px;
-                color: @color-text
-              }
-
-              .desc {
-                color: @color-text-d
-              }
+            .desc {
+              color: @color-text-d
             }
           }
         }

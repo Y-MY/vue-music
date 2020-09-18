@@ -30,7 +30,7 @@ let vendor = (() => {
     O: 'OTransform',
     ms: 'msTransform',
     standard: 'transform'
-  }
+  };
 
   for (let key in transformNames) {
     if (elementStyle[transformNames[key]] !== undefined) {
@@ -39,7 +39,7 @@ let vendor = (() => {
   }
 
   return false
-})()
+})();
 
 export function prefixStyle(style) {
   if (vendor === false) {

@@ -13,17 +13,29 @@
         </div>
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
-          <ul>
+          <el-row :gutter="20">
+            <el-col :span="8" @click="selectItem(item)" v-for="item in discList" class="item">
+              <img width="90%" height="90%" :src="item.cover">
+              <div class="text">
+                <h2 class="name" v-html="item.title"></h2>
+              </div>
+             <!-- <div class="text">
+                <h2 class="name" v-html="item.title"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>-->
+            </el-col>
+          </el-row>
+         <!-- <ul>
             <li @click="selectItem(item)" v-for="item in discList" class="item">
               <div class="icon">
-                <img width="60" height="60" :src="item.image">
+                <img width="60" height="60" :src="item.cover">
               </div>
               <div class="text">
-                <h2 class="name" v-html="item.playlistName"></h2>
-                <!-- <p class="desc" v-html="item.dissname"></p>-->
+                <h2 class="name" v-html="item.title"></h2>
+                <p class="desc" v-html="item.dissname"></p>
               </div>
             </li>
-          </ul>
+          </ul>-->
         </div>
       </div>
       <div class="loading-container" v-show="!discList.length">
@@ -67,8 +79,7 @@
       },
       _getDiscList() {
         getDiscList().then((res) => {
-          console.log(res.msg)
-          this.discList = res.msg
+          this.discList = res.recomPlaylist.data.v_hot.slice(0,9)
         })
       },
       handlePlaylist(playlist) {
@@ -111,7 +122,7 @@
 
     .recommend-content {
       height: 100%;
-      overflow: hidden;
+      overflow: scroll;
 
       .slider-wrapper {
         position: relative;
@@ -120,6 +131,9 @@
       }
 
       .recommend-list {
+        .el-row{
+          padding: 0 5px;
+        }
         .list-title {
           height: 65px;
           line-height: 65px;
@@ -129,11 +143,7 @@
         }
 
         .item {
-          display: flex;
-          box-sizing: border-box;
-          align-items: center;
           padding: 0 20px 20px 20px;
-
           .icon {
             flex: 0 0 60px;
             width: 60px;

@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import fastclick from 'fastclick';// 引入fastclick
 import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import App from './App';
 import router from './router';
 

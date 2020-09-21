@@ -11,8 +11,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {addClass} from '../../common/js/dom'
-  import BScroll from 'better-scroll'
+  import {addClass} from '../../common/js/dom';
+  import BScroll from 'better-scroll';
 
   export default {
     name: 'slider',
@@ -124,6 +124,9 @@
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
       }
+    },
+    destroyed() {
+      clearTimeout(this.timer)
     }
   }
 </script>

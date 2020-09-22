@@ -1,17 +1,22 @@
-'use strict'
-const utils = require('./utils')
-const webpack = require('webpack')
-const config = require('../config')
-const merge = require('webpack-merge')
-const path = require('path')
-const baseWebpackConfig = require('./webpack.base.conf')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const portfinder = require('portfinder')
+'use strict';
+const utils = require('./utils');
+const webpack = require('webpack');
+const config = require('../config');
+const merge = require('webpack-merge');
+const path = require('path');
+const baseWebpackConfig = require('./webpack.base.conf');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const portfinder = require('portfinder');
 
-const HOST = process.env.HOST
-const PORT = process.env.PORT && Number(process.env.PORT)
+var express = require('express');
+var axios = require('axios');
+var app = express();
+var apiRoutes = express.Router();
+
+const HOST = process.env.HOST;
+const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -22,6 +27,24 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
+    before(apiRoutes){
+      apiRoutes.get('/api/getSingerList',(req,res)=>{
+        const url = 'https://u.y.qq.com/cgi-bin/musics.fcg';
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query  //这是请求的query
+        }).then((response) => {
+          //response是api地址返回的，数据在data里。
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e);
+        })
+      });
+      app.use('/api', apiRoutes);
+    },
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [
@@ -66,18 +89,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       }
     ])
   ]
-})
+});
 
 module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
+  portfinder.basePort = process.env.PORT || config.dev.port;
   portfinder.getPort((err, port) => {
     if (err) {
       reject(err)
     } else {
       // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
+      process.env.PORT = port;
       // add port to devServer config
-      devWebpackConfig.devServer.port = port
+      devWebpackConfig.devServer.port = port;
 
       // Add FriendlyErrorsPlugin
       devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
@@ -87,9 +110,9 @@ module.exports = new Promise((resolve, reject) => {
         onErrors: config.dev.notifyOnErrors
         ? utils.createNotifierCallback()
         : undefined
-      }))
+      }));
 
       resolve(devWebpackConfig)
     }
   })
-})
+});

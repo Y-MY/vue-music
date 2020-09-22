@@ -1,47 +1,45 @@
 <template>
   <div class="recommend" ref="recommend">
-    <scroll ref="scroll" class="recommend-content" :data="discList">
-      <div>
-        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
-          <slider>
-            <div v-for="item in recommends">
-              <a :href="item.linkData.linkUrl">
-                <img class="needsclick" @load="loadImage" :src="item.linkData.linkPicUrl">
-              </a>
+    <div class="recommend-content">
+      <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
+        <slider>
+          <div v-for="item in recommends">
+            <a :href="item.linkData.linkUrl">
+              <img class="needsclick" @load="loadImage" :src="item.linkData.linkPicUrl">
+            </a>
+          </div>
+        </slider>
+      </div>
+      <div class="recommend-list">
+        <h1 class="list-title">热门歌单推荐</h1>
+        <el-row :gutter="20">
+          <el-col :span="8" @click="selectItem(item)" v-for="(item,index) in discList" class="item" :key="index">
+            <img width="90%" height="90%" v-lazy="item.cover">
+            <div class="text">
+              <h2 class="name" v-html="item.title"></h2>
             </div>
-          </slider>
-        </div>
-        <div class="recommend-list">
-          <h1 class="list-title">热门歌单推荐</h1>
-          <el-row :gutter="20">
-            <el-col :span="8" @click="selectItem(item)" v-for="item in discList" class="item">
-              <img width="90%" height="90%" :src="item.cover">
-              <div class="text">
-                <h2 class="name" v-html="item.title"></h2>
-              </div>
-             <!-- <div class="text">
-                <h2 class="name" v-html="item.title"></h2>
-                <p class="desc" v-html="item.dissname"></p>
-              </div>-->
-            </el-col>
-          </el-row>
-         <!-- <ul>
-            <li @click="selectItem(item)" v-for="item in discList" class="item">
-              <div class="icon">
-                <img width="60" height="60" :src="item.cover">
-              </div>
-              <div class="text">
-                <h2 class="name" v-html="item.title"></h2>
-                <p class="desc" v-html="item.dissname"></p>
-              </div>
-            </li>
-          </ul>-->
-        </div>
+            <!-- <div class="text">
+               <h2 class="name" v-html="item.title"></h2>
+               <p class="desc" v-html="item.dissname"></p>
+             </div>-->
+          </el-col>
+        </el-row>
+        <!-- <ul>
+           <li @click="selectItem(item)" v-for="item in discList" class="item">
+             <div class="icon">
+               <img width="60" height="60" :src="item.cover">
+             </div>
+             <div class="text">
+               <h2 class="name" v-html="item.title"></h2>
+               <p class="desc" v-html="item.dissname"></p>
+             </div>
+           </li>
+         </ul>-->
       </div>
-      <div class="loading-container" v-show="!discList.length">
-        <loading></loading>
-      </div>
-    </scroll>
+    </div>
+    <div class="loading-container" v-show="!discList.length">
+      <loading></loading>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -79,7 +77,7 @@
       },
       _getDiscList() {
         getDiscList().then((res) => {
-          this.discList = res.recomPlaylist.data.v_hot.slice(0,9)
+          this.discList = res.recomPlaylist.data.v_hot
         })
       },
       handlePlaylist(playlist) {
@@ -91,7 +89,7 @@
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true;
-          this.$refs.scroll.refresh()
+          //this.$refs.scroll.refresh()
         }
       },
       selectItem(item) {
@@ -122,7 +120,8 @@
 
     .recommend-content {
       height: 100%;
-      overflow: scroll;
+      overflow-y: scroll;
+      overflow-x: hidden;
 
       .slider-wrapper {
         position: relative;
@@ -131,9 +130,10 @@
       }
 
       .recommend-list {
-        .el-row{
+        .el-row {
           padding: 0 5px;
         }
+
         .list-title {
           height: 65px;
           line-height: 65px;
@@ -144,16 +144,18 @@
 
         .item {
           padding: 0 20px 20px 20px;
+
           .icon {
             flex: 0 0 60px;
             width: 60px;
             padding-right: 20px;
           }
+
           .text {
-           /* display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;*/
+            /* display: flex;
+             flex-direction: column;
+             justify-content: center;
+             flex: 1;*/
             line-height: 20px;
             overflow: hidden;
             font-size: @font-size-medium;

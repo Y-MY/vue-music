@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import Tab from './pages/tab';
-  import MHeader from './pages/m-header/index';
+  import Tab from './pages/tab/tab';
+  import MHeader from './pages/m-header/m-header';
 
   export default {
     name: 'App',

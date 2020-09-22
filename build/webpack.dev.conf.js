@@ -20,20 +20,23 @@ const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
 
   // these devServer options should be customized in /config/index.js
   devServer: {
-    before(apiRoutes){
-      apiRoutes.get('/api/getSingerList',(req,res)=>{
+    before(apiRoutes) {
+      apiRoutes.get('/api/getSingerList', (req, res) => {
+        console.log(req)
         const url = 'https://u.y.qq.com/cgi-bin/musics.fcg';
         axios.get(url, {
           headers: {
-            referer: 'https://c.y.qq.com/',
-            host: 'c.y.qq.com'
+            referer: 'https://y.qq.com/portal/singer_list.html',
+            host: 'u.y.qq.com',
+            ':authority': 'u.y.qq.com',
+            ':path': '/cgi-bin/musics.fcg?-=getUCGI44150552783270736&g_tk=5381&sign=zza99wtmnulz1muq99395b8f02929008a5f659a04d02802de&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%2C%22cv%22%3A0%7D%2C%22singerList%22%3A%7B%22module%22%3A%22Music.SingerListServer%22%2C%22method%22%3A%22get_singer_list%22%2C%22param%22%3A%7B%22area%22%3A-100%2C%22sex%22%3A-100%2C%22genre%22%3A-100%2C%22index%22%3A1%2C%22sin%22%3A0%2C%22cur_page%22%3A1%7D%7D%7D'
           },
           params: req.query  //这是请求的query
         }).then((response) => {
@@ -48,7 +51,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [
-        { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'recommend.vue.less.html') },
+        {from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'recommend.vue.less.html')},
       ],
     },
     hot: true,
@@ -58,7 +61,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
-      ? { warnings: false, errors: true }
+      ? {warnings: false, errors: true}
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
@@ -108,8 +111,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }));
 
       resolve(devWebpackConfig)

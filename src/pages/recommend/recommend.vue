@@ -18,10 +18,6 @@
             <div class="text">
               <h2 class="name" v-html="item.title"></h2>
             </div>
-            <!-- <div class="text">
-               <h2 class="name" v-html="item.title"></h2>
-               <p class="desc" v-html="item.dissname"></p>
-             </div>-->
           </el-col>
         </el-row>
         <!-- <ul>

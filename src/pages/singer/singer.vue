@@ -9,6 +9,7 @@
   import ListView from '../../base/listview/listview';
   import {getSingerList} from '../../api/singer';
   import Singer from '../../common/js/singer';
+  import {ERR_OK} from '../../api/config';
   /* import {mapMutations} from 'vuex';*/
   /*import {playlistMixin} from '../../common/js/mixin';*/
 
@@ -27,14 +28,14 @@
     },
     methods: {
       _getSingerList() {
-        let singers = getSingerList();
-        this.singers = this._normalizeSinger(singers.singerList.data.singerlist);
-        console.log(this.singers)
-        /* getSingerList().then((res) => {
+       /* let singers = getSingerList();
+        //this.singers = this._normalizeSinger(singers.singerList.data.singerlist);
+        console.log(this.singers)*/
+         getSingerList().then((res) => {
             if (res.code === ERR_OK) {
-              this.singers = this._normalizeSinger(res.data.list)
+              this.singers = this._normalizeSinger(res.singerList.data.singerlist)
             }
-        })*/
+        })
       },
 
       handlePlaylist(playlist) {
@@ -59,7 +60,7 @@
         };
 
         list.forEach((item, index) => {
-          if (singer < HOT_SINGER_LEN) {
+          if (index < HOT_SINGER_LEN) {
             map.hot.items.push(new Singer({
               name: item.singer_name,
               id: item.singer_id,

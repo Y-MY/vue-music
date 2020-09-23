@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Recommend from '../pages/recommend/recommend.vue';
 import Singer from '../pages/singer/singer.vue';
+import SingerDetail from '../pages/singer-detail/singer-detail.vue';
 import Rank from '../pages/rank/rank.vue';
 import Search from '../pages/search/search.vue';
 
@@ -29,7 +30,7 @@ export default new Router({
       children: [
         {
           path: ':id',
-         // component: SingerDetail
+         component: SingerDetail
         }
       ]
     },

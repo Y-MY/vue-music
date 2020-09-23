@@ -16,12 +16,20 @@
         </uL>
       </li>
     </ul>
-    <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart"
-         @touchmove.stop.prevent="onShortcutTouchMove"
-         @touchend.stop>
+    <div
+      class="list-shortcut"
+      @touchstart.stop.prevent="onShortcutTouchStart"
+      @touchmove.stop.prevent="onShortcutTouchMove"
+      @touchend.stop
+    >
       <ul>
-        <li v-for="(item, index) in shortcutList" :data-index="index" class="item"
-            :class="{'current':currentIndex===index}">{{item}}
+        <li
+          class="item"
+          v-for="(item, index) in shortcutList"
+          :data-index="index"
+          :class="{'current':currentIndex===index}"
+        >
+          {{item}}
         </li>
       </ul>
     </div>
@@ -80,7 +88,7 @@
         this.$emit('select', item)
       },
       onShortcutTouchStart(e) {
-        let anchorIndex = getData(e.target, 'recommend.vue');
+        let anchorIndex = getData(e.target, 'index');
         let firstTouch = e.touches[0];
         this.touch.y1 = firstTouch.pageY;
         this.touch.anchorIndex = anchorIndex;
@@ -191,11 +199,10 @@
       }
 
       .list-group-item {
-      /*  display: flex;
-        align-items: center;
-        padding: 20px 0 0 30px;*/
         text-align: left;
-
+        display: flex;
+        align-items: center;
+        margin: 20px 10px 10px 20px;
         .avatar {
           width: 50px;
           height: 50px;

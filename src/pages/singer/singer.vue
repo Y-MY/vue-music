@@ -28,13 +28,13 @@
     },
     methods: {
       _getSingerList() {
-       /* let singers = getSingerList();
-        //this.singers = this._normalizeSinger(singers.singerList.data.singerlist);
-        console.log(this.singers)*/
-         getSingerList().then((res) => {
-            if (res.code === ERR_OK) {
-              this.singers = this._normalizeSinger(res.singerList.data.singerlist)
-            }
+        /* let singers = getSingerList();
+         //this.singers = this._normalizeSinger(singers.singerList.data.singerlist);
+         console.log(this.singers)*/
+        getSingerList().then((res) => {
+          if (res.code === ERR_OK) {
+            this.singers = this._normalizeSinger(res.singerList.data.singerlist)
+          }
         })
       },
 
@@ -63,8 +63,9 @@
           if (index < HOT_SINGER_LEN) {
             map.hot.items.push(new Singer({
               name: item.singer_name,
-              id: item.singer_id,
-              avatar: item.singer_pic
+              singerId: item.singer_id,
+              pictureId: item.singer_mid,
+              avatar: item.singer_pic,
             }))
           }
           //将名字的首字母转成英文字母
@@ -77,7 +78,9 @@
           }
           map[key].items.push(new Singer({
             name: item.singer_name,
-            id: item.singer_id
+            singerId: item.singer_id,
+            pictureId: item.singer_mid,
+            avatar: item.singer_pic,
           }))
         });
         // 为了得到有序列表，我们需要处理 map

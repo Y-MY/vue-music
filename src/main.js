@@ -6,7 +6,7 @@ import VueLazyload from 'vue-lazyload'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App';
-import router from './router';
+import router from './router/router';
 
 import './common/less/index.less';
 
@@ -14,7 +14,7 @@ fastclick.attach(document.body);
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueLazyload, {
-  loading: require('common/image/default.png')
+  loading: require('../src/assets/images/default.png')
 });
 /* eslint-disable no-new */
 new Vue({

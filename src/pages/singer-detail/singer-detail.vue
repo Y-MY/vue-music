@@ -9,9 +9,17 @@
   import {getSingerDetail} from '../../api/singer'
   import {ERR_OK} from '../../api/config'
   import {createSong} from '../../common/js/song'
-  /*import {mapGetters} from '../../vuex'*/
+  import {mapGetters} from 'vuex'
 
   export default {
+    data() {
+      return {
+        songs: []
+      }
+    },
+    components: {
+      MusicList
+    },
     computed: {
       title() {
         return this.singer.name
@@ -19,25 +27,20 @@
       bgImage() {
         return this.singer.avatar
       },
-      /* ...mapGetters([
+       ...mapGetters([
          'singer'
-       ])*/
-    },
-    data() {
-      return {
-        songs: []
-      }
+       ])
     },
     created() {
       this._getDetail()
     },
     methods: {
       _getDetail() {
-        if (!this.singer.id) {
+        if (!this.singer.singerMid) {
           this.$router.push('/singer');
           return
         }
-        getSingerDetail(this.singer.id).then((res) => {
+        getSingerDetail(this.singer.singerMid).then((res) => {
           if (res.code === ERR_OK) {
             this.songs = this._normalizeSongs(res.data.list)
           }
@@ -54,9 +57,7 @@
         return ret
       }
     },
-    components: {
-      MusicList
-    }
+
   }
 </script>
 

@@ -15,7 +15,6 @@
 <style scoped lang="less">
   @import "../../common/less/variable.less";
   @import "../../common/less/mixin.less";
-  @import "../../common/less/icon.less";
 
   .m-header {
     position: relative;

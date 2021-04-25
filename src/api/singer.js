@@ -1,10 +1,10 @@
-import {jsonp} from '../common/js/jsonp'
+import {jsonp, formatUrl} from '../common/js/jsonp'
 import {commonParams, options, qqcommonParams} from './config'
 import {singerList} from "./data/singerData"
 import axios from 'axios'
 
 export function getSingerList() {
- // const url = '/api/getSingerList';
+  // const url = '/api/getSingerList';
   /* const data = Object.assign({}, qqcommonParams, {
      data: {
        "comm": {"ct": 24, "cv": 0},
@@ -23,7 +23,36 @@ export function getSingerList() {
 }
 
 export function getSingerDetail(singerId) {
-  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg';
+  //const url = 'https://u.y.qq.com/cgi-bin/musics.fcg';
+  /*const paramsData = {
+    comm: {"ct": 24, "cv": 0},
+    singerSongList: {
+      method: "GetSingerSongList",
+      param: {order: 1, singerMid: singerId, begin: 0, num: 10},
+      module: "musichall.song_list_server"
+    }
+  };*/
+
+ /* const data = Object.assign({}, qqcommonParams, {
+    '-': 'getSingerSong8710574690941408',
+    "data": encodeURIComponent(JSON.stringify(paramsData))
+  });*/
+  /*return axios.get(formatUrl(url,data),{
+    headers: {
+      referer: 'https://y.qq.com/portal/singer_list.html',
+      host: 'u.y.qq.com',
+    },
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })*/
+
+ /* return axios.get('/api/getSingerDetail', {
+    params: data
+  }).then((res) => {
+    console.log(res);
+    return Promise.resolve(res.data)
+  })*/
+  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
 
   const data = Object.assign({}, commonParams, {
     hostUin: 0,

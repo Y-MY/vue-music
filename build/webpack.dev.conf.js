@@ -46,6 +46,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e);
         })
       });
+      apiRoutes.get('/api/getSingerDetail', (req, res) => {
+        const url = 'https://u.y.qq.com/cgi-bin/musics.fcg';
+        axios.get(url, {
+          headers: {
+            Referer: 'https://y.qq.com/portal/singer_list.html',
+            host: 'u.y.qq.com',
+          },
+          params: req.query  //这是请求的query
+        }).then((response) => {
+          //response是api地址返回的，数据在data里。
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e);
+        })
+      });
       app.use('/api', apiRoutes);
     },
     clientLogLevel: 'warning',

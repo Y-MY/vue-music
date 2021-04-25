@@ -23,3 +23,8 @@ export const param = (data) => {
   }
   return url ? url.substring(1) : ''
 };
+
+export const formatUrl = (url, data) => {
+  url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
+  return url;
+};

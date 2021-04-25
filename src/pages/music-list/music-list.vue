@@ -1,7 +1,8 @@
 <template>
   <div class="music-list">
     <div class="back" @click="back">
-      <i class="icon-back"></i>
+      <!--   <i class="iconfont icon-back"></i>-->
+      <i class="iconfont icon-fanhui"></i>
     </div>
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
@@ -14,15 +15,14 @@
       <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
-    <scroll :data="songs" @scroll="scroll"
-            :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
+    <div class="list" ref="list">
       <div class="song-list-wrapper">
         <song-list :songs="songs" :rank="rank" @select="selectItem"></song-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
       </div>
-    </scroll>
+    </div>
   </div>
 </template>
 
@@ -69,13 +69,14 @@
       }
     },
     created() {
-      this.probeType = 3;
       this.listenScroll = true
     },
     mounted() {
-      this.imageHeight = this.$refs.bgImage.clientHeight;
-      this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT;
-      this.$refs.list.$el.style.top = `${this.imageHeight}px`
+      if(this.$refs.bgImage){
+        this.imageHeight = this.$refs.bgImage.clientHeight;
+        this.$refs.list.style.top = `${this.imageHeight}px`;
+        this.$refs.list.style.height = `calc(100% - ${this.imageHeight}px)`;
+      }
     },
     methods: {
       handlePlaylist(playlist) {
@@ -105,36 +106,6 @@
          'randomPlay'
        ])*/
     },
-    watch: {
-      scrollY(newVal) {
-        let translateY = Math.max(this.minTransalteY, newVal);
-        let scale = 1;
-        let zIndex = 0;
-        let blur = 0;
-        const percent = Math.abs(newVal / this.imageHeight);
-        if (newVal > 0) {
-          scale = 1 + percent;
-          zIndex = 10
-        } else {
-          blur = Math.min(20, percent * 20)
-        }
-
-        this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`;
-        this.$refs.filter.style[backdrop] = `blur(${blur}px)`;
-        if (newVal < this.minTransalteY) {
-          zIndex = 10;
-          this.$refs.bgImage.style.paddingTop = 0;
-          this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`;
-          this.$refs.playBtn.style.display = 'none'
-        } else {
-          this.$refs.bgImage.style.paddingTop = '70%';
-          this.$refs.bgImage.style.height = 0;
-          this.$refs.playBtn.style.display = '';
-        }
-        this.$refs.bgImage.style[transform] = `scale(${scale})`;
-        this.$refs.bgImage.style.zIndex = zIndex
-      }
-    },
     components: {
       Scroll,
       Loading,
@@ -155,6 +126,7 @@
     bottom: 0;
     right: 0;
     background: @color-background;
+    text-align: left;
 
     .back {
       position: absolute;
@@ -162,7 +134,7 @@
       left: 6px;
       z-index: 50;
 
-      .icon-back {
+      i {
         display: block;
         padding: 10px;
         font-size: @font-size-large-x;
@@ -245,6 +217,7 @@
       bottom: 0;
       width: 100%;
       background: @color-background;
+      overflow: scroll;
 
       .song-list-wrapper {
         padding: 20px 30px;

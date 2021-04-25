@@ -10,7 +10,7 @@
   import {getSingerList} from '../../api/singer';
   import Singer from '../../common/js/singer';
   import {ERR_OK} from '../../api/config';
-  /* import {mapMutations} from 'vuex';*/
+   import {mapMutations} from 'vuex';
   /*import {playlistMixin} from '../../common/js/mixin';*/
 
   const HOT_SINGER_LEN = 10;
@@ -28,9 +28,6 @@
     },
     methods: {
       _getSingerList() {
-        /* let singers = getSingerList();
-         //this.singers = this._normalizeSinger(singers.singerList.data.singerlist);
-         console.log(this.singers)*/
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
             this.singers = this._normalizeSinger(res.singerList.data.singerlist)
@@ -46,9 +43,9 @@
 
       selectSinger(singer) {
         this.$router.push({
-          path: `/singer/${singer.id}`
+          path: `/singer/${singer.singerMid}`
         });
-        //this.setSinger(singer)
+        this.setSinger(singer)
       },
 
       _normalizeSinger(list) {
@@ -64,7 +61,7 @@
             map.hot.items.push(new Singer({
               name: item.singer_name,
               singerId: item.singer_id,
-              pictureId: item.singer_mid,
+              singerMid: item.singer_mid,
               avatar: item.singer_pic,
             }))
           }
@@ -79,7 +76,7 @@
           map[key].items.push(new Singer({
             name: item.singer_name,
             singerId: item.singer_id,
-            pictureId: item.singer_mid,
+            singerMid: item.singer_mid,
             avatar: item.singer_pic,
           }))
         });
@@ -99,9 +96,9 @@
         });
         return hot.concat(ret)
       },
-      /* ...mapMutations({
+       ...mapMutations({
          setSinger: 'SET_SINGER'
-       })*/
+       })
     },
     components: {
       ListView

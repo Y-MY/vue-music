@@ -78,6 +78,7 @@
       }
     },
     created() {
+
       this.probeType = 3;
       this.listenScroll = true;
       this.touch = {};
